@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+@use "../theme-colors" as theme;
+
+.light-theme {
+  @include theme.high-contrast-overrides(light);
+}
+
+.dark-theme {
+  @include theme.high-contrast-overrides(dark);
+}
+
+.default-theme {
+  @include theme.high-contrast-overrides(light);
+}
+
+.system-theme {
+  @include theme.high-contrast-overrides(color-scheme);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
