@@ -1,0 +1,8 @@
+@if (loading) {
+  <p>Cargando...</p>
+}
+@else () {
+  <admin-add-navigation />
+
+  <admin-add-edit-form [formType]="formType" [dataType]="dataType" [data]="data" (formSubmit)="onFormSubmit($event)" />
+}

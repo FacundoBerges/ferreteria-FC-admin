@@ -1,10 +1,10 @@
-<div class="mat-elevation-z2">
+<div class="mat-elevation-z2 table-container">
   <table mat-table [dataSource]="dataSource" matSort class="full-width-table" aria-label="Elements">
     @for (column of displayedColumns; track $index) {
-    <ng-container [matColumnDef]="column">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{displayedHeaders[$index]}}</th>
-      <td mat-cell *matCellDef="let row">{{row[column]}}</td>
-    </ng-container>
+      <ng-container [matColumnDef]="column">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{displayedHeaders[$index]}}</th>
+        <td mat-cell *matCellDef="let row">{{row[column]}}</td>
+      </ng-container>
     }
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -12,8 +12,8 @@
   </table>
 
   @if (dataSource) {
-  <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10"
-    [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
-  </mat-paginator>
+    <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
+    </mat-paginator>
   }
 </div>

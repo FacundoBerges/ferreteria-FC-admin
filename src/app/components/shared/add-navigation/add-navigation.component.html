@@ -1,0 +1,7 @@
+<nav class="add-buttons">
+  @for (menuItem of menuItems; track $index) {
+    <a mat-stroked-button color="primary" [routerLink]="[menuItem.route, 'agregar']">
+      <mat-icon>add</mat-icon>Agregar {{menuItem.name | lowercase }}
+    </a>
+  }
+</nav>

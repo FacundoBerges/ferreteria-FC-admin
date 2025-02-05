@@ -6,10 +6,10 @@
     <mat-nav-list>
 
       @for (menuItem of menuItems; track $index) {
-      <a mat-list-item routerLink="{{ menuItem.route }}">
+      <a mat-list-item routerLink="{{ menuItem.route }}" (click)="setActiveMenuItem(menuItem.name)">
         <div class="menu-button">
           <mat-icon>{{ menuItem.icon }}</mat-icon>
-          <span>{{ menuItem.name }}</span>
+          <span>{{ menuItem.name | titlecase }}</span>
         </div>
       </a>
       }
@@ -25,7 +25,7 @@
       </button>
       }
 
-      <span>Panel de administración</span>
+      <p [title]="title">{{title}}</p>
     </mat-toolbar>
 
     <main>

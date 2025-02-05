@@ -1,0 +1,69 @@
+<section>
+  @switch (dataType) {
+    @case ('brand') {
+      <h2>Marca</h2>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label mat-label for="name">Nombre de marca: </mat-label>
+          
+          <input matInput placeholder="Nombre de marca" id="name" formControlName="name" type="text" required>
+  
+          @if (form.get('name')?.hasError('required')) {
+            <mat-error>
+              Nombre de marca requerido
+            </mat-error>
+          }
+
+          @if (form.get('name')?.hasError('minlength')) {
+            <mat-error>
+              Nombre de marca debe tener al menos 3 caracteres
+            </mat-error>
+          }
+  
+        </mat-form-field>
+  
+        <button mat-button color="accent" type="submit" [disabled]="!form.valid">Guardar</button>
+      </form>
+    }
+  
+    @case ('category') {
+      <h2>Categoría</h2>
+
+      <form [formGroup]="form">
+        <mat-form-field>
+          <mat-label mat-label for="name">Nombre de categoría: </mat-label>
+
+          <input matInput placeholder="Nombre de categoría" id="name" formControlName="name" type="text" required>
+  
+          @if (form.get('name')?.hasError('required')) {
+            <mat-error>
+              Nombre de categoría requerido
+            </mat-error>
+          }
+
+          @if (form.get('name')?.hasError('minlength')) {
+            <mat-error>
+              Nombre de categoría debe tener al menos 3 caracteres
+            </mat-error>
+          }
+  
+        </mat-form-field>
+
+        <div>
+          <admin-file-input />
+        </div>
+        
+        <button mat-button color="accent" type="submit" [disabled]="!form.valid">Guardar</button>
+      </form>
+    }
+  
+    @case ('product') {
+  
+    }
+  
+    @default {
+  
+    }
+  }
+</section>
