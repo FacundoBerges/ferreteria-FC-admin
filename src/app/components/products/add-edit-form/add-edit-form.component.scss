@@ -1,5 +1,7 @@
 section {
-  margin: 0.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   h2 {
     margin-bottom: 1rem;
@@ -11,22 +13,31 @@ section {
     display: flex;
     flex-direction: column;
 
-    @media screen and (max-width: 768px) {
+    div.form-fields-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(20rem, 30rem));
       align-items: center;
+      justify-content: space-around;
+      gap: 0.5rem;
+
+      mat-form-field,
+      div.attachment {
+        min-width: 15rem;
+        max-width: 50rem;
+        width: 100%;
+        margin: 0.5rem 0;
+      }
     }
 
-    mat-form-field,
-    div {
-      margin-top: 1rem;
-      min-width: 14rem;
-      max-width: 25rem;
-      width: 100%;
-    }
+    div.btn-container {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0;
 
-    button {
-      display: block;
-      margin-top: 1rem;
-      max-width: 8rem;
+      button {
+        margin: 1rem 0;
+        max-width: 8rem;
+      }
     }
   }
 }

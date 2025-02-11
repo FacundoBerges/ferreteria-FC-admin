@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -15,36 +14,28 @@ import { productKeys, ProductTable } from '../../../models/product.interface';
 })
 export class ProductsTableComponent implements OnInit {
   private _productsService: ProductsService = inject(ProductsService);
-  private _router: Router = inject(Router);
   public products$!: Observable<ProductTable[]>;
   public displayedColumns: string[] = productKeys;
   public displayedHeaders: string[] = [
     'Id',
     'Código',
     'Descripción',
-    'Precio',
     'Imagen',
     'Marca',
     'Categoría',
+    'Acciones'
   ];
 
   ngOnInit(): void {
     this.products$ = this._productsService.getProducts();
   }
 
-  public handleAddProduct(): void {
-    this._router.navigate(['products', 'add']);
-  }
+  public onDelete(product: ProductTable): void {
+    if (!product.id) 
+      throw new Error('Product id is required');
 
-  public goToProduct(productId: number): void {
-    this._router.navigate(['products', productId]);
-  }
+    if (! confirm(`¿Estás seguro de que deseas eliminar el producto ${product.description}?`)) return;
 
-  public deleteProduct(productId: number): void {
-    this._productsService.deleteProduct(productId);
-  }
-
-  public editProduct(productId: number): void {
-    this._router.navigate(['products', 'edit', productId]);
+    this._productsService.deleteProduct(product.id);
   }
 }

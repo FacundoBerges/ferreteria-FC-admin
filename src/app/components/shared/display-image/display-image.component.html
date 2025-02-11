@@ -1,0 +1,10 @@
+<h2>Imagen</h2>
+
+<div class="image-container">
+  @if (image) {
+    <img [src]="imageSource" alt="Previsualización de imagen"/>
+  }
+  @else () {
+    <h3>Imagen no disponible</h3>
+  }
+</div>

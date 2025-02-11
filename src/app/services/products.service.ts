@@ -6,26 +6,22 @@ import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { ProductDTO } from '../interfaces/product-dto.interface';
 import { Product, ProductTable } from '../models/product.interface';
-import { mapProductDTOToProductTable } from '../utils/product.mapper';
-import {
-  mapProductDTOToProductModel,
-  mapProductModelToProductDTO,
-} from '../utils/product.mapper';
+import { mapProductDTOToProductModel, mapProductModelToProductDTO, mapProductDTOToProductTable } from '../utils/product.mapper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
   private _httpClient: HttpClient = inject(HttpClient);
-  private API_URL = `${environment.apiUrl}/products`;
+  private _API_URL = `${environment.apiUrl}/products`;
 
   constructor() {}
 
-  getProducts(): Observable<ProductTable[]> {
+  public getProducts(): Observable<ProductTable[]> {
     return this._httpClient
-      .get<ProductDTO[]>(`${this.API_URL}`)
+      .get<ProductDTO[]>(`${this._API_URL}`)
       .pipe(
-        map((products: ProductDTO[]) =>
+        map((products: ProductDTO[]): ProductTable[] =>
           products.map(
             (product: ProductDTO): ProductTable =>
               mapProductDTOToProductTable(product)
@@ -34,9 +30,9 @@ export class ProductsService {
       );
   }
 
-  getProductById(id: string): Observable<Product> {
+  public getProductById(id: string): Observable<Product> {
     return this._httpClient
-      .get<ProductDTO>(`${this.API_URL}/${id}`)
+      .get<ProductDTO>(`${this._API_URL}/${id}`)
       .pipe(
         map(
           (product: ProductDTO): Product => mapProductDTOToProductModel(product)
@@ -44,11 +40,11 @@ export class ProductsService {
       );
   }
 
-  createProduct(product: Product): Observable<Product> {
+  public createProduct(product: Product): Observable<Product> {
     const productDTO = mapProductModelToProductDTO(product);
 
     return this._httpClient
-      .post<ProductDTO>(`${this.API_URL}`, productDTO)
+      .post<ProductDTO>(`${this._API_URL}`, productDTO)
       .pipe(
         map(
           (productResponse: ProductDTO): Product =>
@@ -57,20 +53,19 @@ export class ProductsService {
       );
   }
 
-  updateProduct(product: Product): Observable<Product> {
+  public updateProduct(product: Product): Observable<Product> {
     const productDTO = mapProductModelToProductDTO(product);
 
     return this._httpClient
-      .put<ProductDTO>(`${this.API_URL}/${productDTO.product_id}`, productDTO)
+      .put<ProductDTO>(`${this._API_URL}/${productDTO.product_id}`, productDTO)
       .pipe(
         map(
-          (productResponse: ProductDTO): Product =>
-            mapProductDTOToProductModel(productResponse)
+          (productResponse: ProductDTO): Product => mapProductDTOToProductModel(productResponse)
         )
       );
   }
 
-  deleteProduct(id: number): Observable<void> {
-    return this._httpClient.delete<void>(`${this.API_URL}/${id}`);
+  public deleteProduct(id: number): Observable<void> {
+    return this._httpClient.delete<void>(`${this._API_URL}/${id}`);
   }
 }

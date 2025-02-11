@@ -3,6 +3,19 @@
 }
 @else () {
   <admin-add-navigation />
+  
+  <div [ngClass]="{'with-image-container': ! brandDataType}">
+    <admin-add-edit-form 
+      [formType]="formType" 
+      [dataType]="dataType" 
+      [data]="data" 
+      [brands$]="brands$"
+      [categories$]="categories$"
+      (imageFile)="onImageFileSelect($event)"
+      (formSubmit)="onFormSubmit($event)" />
 
-  <admin-add-edit-form [formType]="formType" [dataType]="dataType" [data]="data" (formSubmit)="onFormSubmit($event)" />
+    @if (! brandDataType) {
+      <admin-display-image [image]="imageBlob" />
+    }
+  </div>
 }

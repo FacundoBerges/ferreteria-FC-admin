@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -9,11 +9,48 @@ import { MatIconModule } from '@angular/material/icon';
   standalone: true,
 })
 export class FileInputComponent {
-  fileName: string = '';
+  @Input() public accept: string | string[] = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'];
+  @Output() public fileSelected = new EventEmitter<File>();
+  @Output() public fileCancelled = new EventEmitter<File>();
+  public fileName?: string = '';
 
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
+  public onFileChange(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+    const fileList: FileList | null = fileInput.files;
 
-    this.fileName = file ? file.name : '';
+    if (!fileList || fileList.length === 0) {
+      this._resetFileName();
+      this.fileCancelled.emit();
+      return;
+    }
+
+    const file: File = fileList[0];
+
+    if (this.accept === 'image/*' && !this._isValidFile(file)) {
+      this._resetFileName();
+      this.fileCancelled.emit();
+      throw new Error('Invalid file type');
+    }
+
+    this.fileName = file.name;
+    this.fileSelected.emit(file);
+  }
+
+  get inputAccept(): string {
+    if (Array.isArray(this.accept)) 
+      return this.accept.join(',');
+    
+    return this.accept;
+  }
+
+  private _resetFileName(): void {
+    this.fileName = undefined;
+  }
+
+  private _isValidFile(file: File): boolean {
+    if (Array.isArray(this.accept)) 
+      return this.accept.includes(file.type);
+    
+    return file.type.startsWith(this.accept);
   }
 }

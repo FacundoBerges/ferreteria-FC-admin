@@ -1,1 +1,7 @@
-<admin-table [data$]="categories$" [displayedColumns]="displayedColumns" [displayedHeaders]="displayedHeaders" />
+<admin-table 
+  [data$]="categories$" 
+  [displayedColumns]="displayedColumns" 
+  [displayedHeaders]="displayedHeaders" 
+  [route]="'/categorias'"
+  (delete)="onDelete($event)"
+/>

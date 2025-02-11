@@ -3,4 +3,4 @@ export interface Brand {
   name: string;
 }
 
-export const brandKeys: string[] = ['id', 'name'];
+export const brandKeys: string[] = ['id', 'name', 'actions'];

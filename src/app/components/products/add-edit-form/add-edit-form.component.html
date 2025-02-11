@@ -1,69 +1,150 @@
 <section>
   @switch (dataType) {
-    @case ('brand') {
-      <h2>Marca</h2>
+  @case ('brand') {
+  <h2>Marca</h2>
 
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <mat-form-field>
-          <mat-label mat-label for="name">Nombre de marca: </mat-label>
-          
-          <input matInput placeholder="Nombre de marca" id="name" formControlName="name" type="text" required>
-  
-          @if (form.get('name')?.hasError('required')) {
-            <mat-error>
-              Nombre de marca requerido
-            </mat-error>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-fields-container">
+      <mat-form-field>
+        <mat-label mat-label for="name">Nombre de marca: </mat-label>
+
+        <input matInput placeholder="Nombre de marca" id="name" formControlName="name" type="text" required>
+        @if (form.get('name')?.hasError('required')) {
+        <mat-error>
+          Nombre de marca requerido
+        </mat-error>
+        }
+        @if (form.get('name')?.hasError('minlength')) {
+        <mat-error>
+          Nombre de marca debe tener al menos 1 carácter
+        </mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <div class="btn-container">
+      <button mat-button color="accent" type="submit" [disabled]="!form.valid">Guardar</button>
+    </div>
+  </form>
+  }
+
+  @case ('category') {
+  <h2>Categoría</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-fields-container">
+      <mat-form-field>
+        <mat-label mat-label for="name">Nombre de categoría: </mat-label>
+
+        <input matInput placeholder="Nombre de categoría" id="name" formControlName="name" type="text" required>
+
+        @if (form.get('name')?.hasError('required')) {
+        <mat-error>
+          Nombre de categoría requerido
+        </mat-error>
+        }
+
+        @if (form.get('name')?.hasError('minlength')) {
+        <mat-error>
+          Nombre de categoría debe tener al menos 1 carácter
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <div class="attachment">
+        <admin-file-input (fileSelected)="onFileSelected($event)" (fileCancelled)="onFileCancelled()" />
+      </div>
+    </div>
+
+    <div class="btn-container">
+      <button mat-button color="accent" type="submit" [disabled]="!form.valid">Guardar</button>
+    </div>
+  </form>
+  }
+
+  @case ('product') {
+  <h2>Producto</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-fields-container">
+      <mat-form-field>
+        <mat-label mat-label for="description">Descripción del producto: </mat-label>
+
+        <input matInput placeholder="Descripción del producto" id="description" formControlName="description"
+          type="text" required>
+
+        @if (form.get('description')?.hasError('required')) {
+        <mat-error>
+          Descripción requerida
+        </mat-error>
+        }
+
+        @if (form.get('description')?.hasError('minlength')) {
+        <mat-error>
+          Descripción debe tener al menos 3 caracteres
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label mat-label for="code">Código del producto: </mat-label>
+
+        <input matInput placeholder="Código del producto" id="code" formControlName="code" type="text" required>
+
+        @if (form.get('code')?.hasError('required')) {
+        <mat-error>
+          Código requerido
+        </mat-error>
+        }
+
+        @if (form.get('code')?.hasError('minlength')) {
+        <mat-error>
+          Código debe tener al menos 1 carácter
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label mat-label for="brand">Marca: </mat-label>
+
+        <mat-select formControlName="brand" [compareWith]="compareBrand" canSelectNullableOptions="true">
+          <mat-option [value]="null">--</mat-option>
+
+          @for (brand of brands; track brand.id) {
+          <mat-option [value]="brand">{{brand.name}}</mat-option>
           }
+        </mat-select>
+      </mat-form-field>
 
-          @if (form.get('name')?.hasError('minlength')) {
-            <mat-error>
-              Nombre de marca debe tener al menos 3 caracteres
-            </mat-error>
+      <mat-form-field>
+        <mat-label mat-label for="category">Categoría: </mat-label>
+
+        <mat-select formControlName="category" [compareWith]="compareCategory" required>
+          <mat-option [value]="null">--</mat-option>
+
+          @for (category of categories; track category.id) {
+          <mat-option [value]="category">{{category.name}}</mat-option>
           }
-  
-        </mat-form-field>
-  
-        <button mat-button color="accent" type="submit" [disabled]="!form.valid">Guardar</button>
-      </form>
-    }
-  
-    @case ('category') {
-      <h2>Categoría</h2>
+        </mat-select>
 
-      <form [formGroup]="form">
-        <mat-form-field>
-          <mat-label mat-label for="name">Nombre de categoría: </mat-label>
+        @if (form.get('category')?.hasError('required')) {
+        <mat-error>La categoría es obligatoria</mat-error>
+        }
+      </mat-form-field>
 
-          <input matInput placeholder="Nombre de categoría" id="name" formControlName="name" type="text" required>
-  
-          @if (form.get('name')?.hasError('required')) {
-            <mat-error>
-              Nombre de categoría requerido
-            </mat-error>
-          }
+      <div class="attachment">
+        <admin-file-input (fileSelected)="onFileSelected($event)" (fileCancelled)="onFileCancelled()" />
+      </div>
+    </div>
 
-          @if (form.get('name')?.hasError('minlength')) {
-            <mat-error>
-              Nombre de categoría debe tener al menos 3 caracteres
-            </mat-error>
-          }
-  
-        </mat-form-field>
+    <div class="btn-container">
+      <button mat-button color="accent" type="submit" [disabled]="!form.valid">Guardar</button>
+    </div>
+  </form>
+  }
 
-        <div>
-          <admin-file-input />
-        </div>
-        
-        <button mat-button color="accent" type="submit" [disabled]="!form.valid">Guardar</button>
-      </form>
-    }
-  
-    @case ('product') {
-  
-    }
-  
-    @default {
-  
-    }
+  @default {
+  <h2>Formulario no disponible</h2>
+  }
   }
 </section>

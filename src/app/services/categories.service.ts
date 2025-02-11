@@ -16,13 +16,13 @@ import {
 })
 export class CategoriesService {
   private _httpClient: HttpClient = inject(HttpClient);
-  private API_URL = `${environment.apiUrl}/categories`;
+  private _API_URL = `${environment.apiUrl}/categories`;
 
   constructor() {}
 
   getCategories(): Observable<Category[]> {
     return this._httpClient
-      .get<CategoryDTO[]>(`${this.API_URL}`)
+      .get<CategoryDTO[]>(`${this._API_URL}`)
       .pipe(
         map((categories: CategoryDTO[]) =>
           categories.map((categoryDto: CategoryDTO) =>
@@ -34,7 +34,7 @@ export class CategoriesService {
 
   getCategoryById(id: string): Observable<Category> {
     return this._httpClient
-      .get<CategoryDTO>(`${this.API_URL}/${id}`)
+      .get<CategoryDTO>(`${this._API_URL}/${id}`)
       .pipe(
         map((categoryDto: CategoryDTO) =>
           mapCategoryDTOToCategoryModel(categoryDto)
@@ -46,7 +46,7 @@ export class CategoriesService {
     const categoryDTO: CategoryDTO = mapCategoryModelToCategoryDTO(category);
 
     return this._httpClient
-      .post<CategoryDTO>(`${this.API_URL}`, categoryDTO)
+      .post<CategoryDTO>(`${this._API_URL}`, categoryDTO)
       .pipe(
         map(
           (categoryResponse: CategoryDTO): Category =>
@@ -60,7 +60,7 @@ export class CategoriesService {
 
     return this._httpClient
       .put<CategoryDTO>(
-        `${this.API_URL}/${categoryDTO.category_id}`,
+        `${this._API_URL}/${categoryDTO.category_id}`,
         categoryDTO
       )
       .pipe(
@@ -72,6 +72,6 @@ export class CategoriesService {
   }
 
   deleteCategory(id: number): Observable<void> {
-    return this._httpClient.delete<void>(`${this.API_URL}/${id}`);
+    return this._httpClient.delete<void>(`${this._API_URL}/${id}`);
   }
 }
